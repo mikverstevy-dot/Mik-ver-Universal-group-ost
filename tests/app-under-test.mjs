@@ -28,7 +28,7 @@ function pubUrl(path) { return CFG.url + '/storage/v1/object/public/photos/' + p
 async function boot() {
   CFG = await fetch('/api/config').then(function (r) { return r.json(); });
   if (!CFG.url || !CFG.anon) { app().innerHTML = '<div class="card center">Configuration manquante : renseigne SUPABASE_URL et SUPABASE_ANON_KEY dans Vercel → Environment Variables.</div>'; return; }
-  var sup = await import('https://esm.sh/@supabase/supabase-js@2');
+  var sup = await import('./mock-supabase.mjs');
   sb = sup.createClient(CFG.url, CFG.anon);
   WEIGHTS = (await sb.from('reaction_weights').select('*').order('points', { ascending: false })).data || [];
   var sess = (await sb.auth.getSession()).session;
@@ -340,3 +340,11 @@ async function launch() {
 }
 
 boot();
+
+;globalThis.__T = {
+  boot, authStep, setAuthMode, joinFree, launch, setGain, react, delPhoto, uploadPhoto,
+  renderAccueil, renderConcours, renderPhoto, renderResultats, renderRegles, renderAdmin,
+  route, nav, loadProfile,
+  state: () => ({ ME, PROFILE, CONTEST, WEIGHTS }),
+  setME: (u) => { ME = u; }
+};

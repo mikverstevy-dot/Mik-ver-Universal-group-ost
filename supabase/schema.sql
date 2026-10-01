@@ -136,6 +136,10 @@ create table if not exists public.admin_log (
   created_at timestamptz not null default now()
 );
 
+-- un seul concours OUVERT à la fois (sinon l'app ne sait plus lequel afficher)
+create unique index if not exists contests_un_seul_ouvert
+  on public.contests ((1)) where status = 'ouvert';
+
 create index if not exists idx_photos_contest   on public.photos (contest_id, owner_id);
 create index if not exists idx_reactions_photo  on public.reactions (photo_id);
 create index if not exists idx_entries_contest  on public.entries (contest_id);

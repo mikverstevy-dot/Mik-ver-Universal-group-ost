@@ -1,0 +1,7 @@
+{
+  "name": "mik-ver-tests",
+  "private": true,
+  "description": "Banc de test d'intégration de l'app Mik-ver (mock Supabase + jsdom). npm install && npm test",
+  "scripts": { "test": "node test.mjs" },
+  "devDependencies": { "jsdom": "^25.0.0" }
+}
